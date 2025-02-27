@@ -9,6 +9,14 @@ Recipes
         <input type="text" id="recipe-tag-search-bar" placeholder="Search..." />
     </div>
 
+Gizmos
+------
+
+.. recipe-gallery::
+    :layout: carousel
+      
+    recipes/gizmos/button_gizmo images/recipes/address_searching.png [search, address, location, map, geocoding]
+
 multi-row
 ---------
 

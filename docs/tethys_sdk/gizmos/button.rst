@@ -1,3 +1,5 @@
+.. _gizmo_button:
+
 ***********************
 Button and Button Group
 ***********************
