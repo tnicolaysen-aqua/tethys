@@ -36,7 +36,7 @@ We want to be able to wire up our application to easily explore and view the Nex
 
 To get basic plotting to work for the ouput NextGen data associated with the nexus points and catchments we've spatially added to our map, we simply need to override the ``get_plot_for_layer_feature`` function, copying its expected signatures (i.e. arguments) and returning the expected result. Let's take a look at what a functional, complete implementation will look like and then dive into the details.
 
-Replace :file:`controller.py` with the following:
+Replace :file:`controllers.py` with the following:
 
 .. code-block:: python
 
@@ -376,7 +376,7 @@ With this code all wired up, you can now click the ``Plot`` button on the popup 
 
 There you have it! With less than 200 lines of code, we have quickly developed a useful data viewer for the NextGen model.
 
-5. Solution
+2. Solution
 ===========
 
 This concludes the Configure Data Plotting portion of the Map Layout Tutorial. You can view the solution on GitHub at `<https://github.com/tethysplatform/tethysapp-map_layout_tutorial/tree/configure-data-plotting>`_ or clone it as follows:

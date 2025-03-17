@@ -34,7 +34,7 @@ You'll also need to do the following:
 
 Adding data to the map you created two sections ago using the Tethys Map Layout feature is simple. To do so, you are required to override the ``compose_layers`` function, copying its expected signatures (i.e. arguments) and returning a list of layer groups. Let's take a look at what a functional, complete implementation will look like and then dive into the details.
 
-Replace :file:`controller.py` with the following:
+Replace :file:`controllers.py` with the following:
 
 .. code-block:: python
     
@@ -235,7 +235,7 @@ Solve the problem by adding the following properties to our ``MapLayoutTutorialM
     
     You can then add and subtract a few from this value to get your ``min_zoom`` and ``max_zoom`` range
 
-Now if you reload your map, our NextGen data will be centered and focused from the get-go. The zooming will also be contrained within the bounds we set. However, with the data now centered, we realize that there is something else to be desired: the symbology. The default rendering styles for these layers makes them look nearly identical. We can add a bit of code to have full control over how the data is rendered.
+Now if you reload your map, our NextGen data will be centered and focused from the get-go. The zooming will also be constrained within the bounds we set. However, with the data now centered, we realize that there is something else to be desired: the symbology. The default rendering styles for these layers makes them look nearly identical. We can add a bit of code to have full control over how the data is rendered.
 
 3. Adjust the layer styles
 ==========================

@@ -66,7 +66,7 @@ If all has gone well, you should see your app listed on the app library page. Cl
 .. figure:: ../../images/app_controls.png
     :width: 650px
 
-**Parts of a Tethys app interface: (1) app navigation toggle and app branding; (2) exit button, settings, button, and custom buttons; (3) app navigation, (4) app content, and (5) app actions.**
+**Parts of a Tethys app interface: (1) app navigation toggle and app branding; (2) exit, settings, and custom buttons; (3) app navigation, (4) app content, and (5) app actions.**
 
 .. tip::
 
@@ -74,7 +74,7 @@ If all has gone well, you should see your app listed on the app library page. Cl
 
 
 
-1. App Project Paths
+4. App Project Paths
 ====================
 
 Throughout the tutorial, you will be asked to open various files. Most of the files will be located in your :term:`app package` directory which shares the name of your app: "dam_inventory". Relative to the ``tethysapp-dam_inventory`` directory, this directory is located at:

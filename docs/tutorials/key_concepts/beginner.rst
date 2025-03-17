@@ -17,6 +17,17 @@ This tutorial introduces important concepts for first-time or beginner Tethys de
     :width: 800px
     :align: center
 
+.. tip::
+    
+    If you have the Tethys Platform installed follow these steps to start it in your browser:
+    
+    1. Open the terminal.
+    2. Enter ``conda activate tethys`` to change to the Tethys environment.
+    3. Enter ``tethys start`` to start the Tethys development server.  This will start a locally running web server.
+    4. Access the Tethys Portal by going to http://localhost:8000 in your browser.
+
+    To end the session go the terminal running the development server and press ctrl + C. 
+
 1. App Class
 ============
 

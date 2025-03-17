@@ -27,7 +27,7 @@ If you wish to use the previous solution as a starting point, do the following:
 
 When you scaffold a new app, by default the :file:`controllers.py` script contains a ``home`` function that controls the backend logic for the home screen of your app. It is of course possible to add a Map View and other map tools using Tethys Gizmos, but since we know we want a single-page web mapping application with very common web mapping features, we can instead configure the Tethys Map Layout.
 
-This can be done by replacing the entire :file:`controller.py` with the following code:
+This can be done by replacing the entire :file:`controllers.py` with the following code:
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ With just under a dozen lines of code, you now have a fully interactive map with
 
 We will learn how to further customize the Map Layout and add our sample NextGen data in the next sections.
 
-4. Solution
+2. Solution
 ===========
 
 This concludes the Configure Map Layout portion of the Map Layout Tutorial. You can view the solution on GitHub at `<https://github.com/tethysplatform/tethysapp-map_layout_tutorial/tree/configure-map-layout-solution>`_ or clone it as follows:
