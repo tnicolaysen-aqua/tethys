@@ -8,18 +8,20 @@ Start and Register
 1. Scaffold New App
 ===================
 
-Create a new app, but don't install it yet:
+Open the terminal and enter the Tethys environment.  Create a new app by entering the following code into the terminal and enter the optional metadata:
 
 .. code-block:: bash
 
+    conda activate tethys
     tethys scaffold geoserver_app
 
 2. Create Spatial Dataset Service Setting
 =========================================
 
-Open the ``app.py`` and add the following method to the ``App`` class:
+Open the ``app.py`` and add the ``SpatialDatasetServiceSetting`` dependency to the top of the file and method to the end of the ``App`` class:
 
 .. code-block:: python
+    :emphasize-lines: 1, 9-22
 
     from tethys_sdk.app_settings import SpatialDatasetServiceSetting
 
@@ -47,6 +49,8 @@ Open the ``app.py`` and add the following method to the ``App`` class:
 3. Install GeoServer and Start Tethys Development Server
 ========================================================
 
+Enter the following commands into the terminal to install and run the app.
+
 .. code-block:: bash
 
     cd tethysapp-geoserver_app
@@ -63,6 +67,10 @@ If you are using the Docker containers, create and start your :doc:`../../softwa
 
 	tethys docker init -c geoserver
 
+.. tip::
+    
+    After executing this command the terminal will prompt you for input about several settings.  It is OK to accept the default values on all the settings.
+
 .. code-block:: bash
 
 	tethys docker start -c geoserver
@@ -76,11 +84,16 @@ Register the GeoServer with Tethys Portal admin page by creating a Spatial Datas
 
 1. Select the "Site Admin" link from the drop down menu by your username.
 2. Scroll to the "Tethys Services" section and select the "Spatial Dataset Services" link.
-3. Create a new Spatial Dataset Service named "primary_geoserver" of type GeoServer.
-4. Enter the endpoint and public endpoint as the same (e.g.: http://localhost:8181/geoserver/rest/ if using Docker or http://localhost:8080/geoserver/rest/ if using a default installation of GeoServer).
-5. Fill out the username and password (default username and password is "admin" and "geoserver", respectively).
+3. Click on the "Add Spatial Dataset Service" button.
+4. Create a new Spatial Dataset Service named "primary_geoserver" of engine type GeoServer.
+5. Enter the endpoint and public endpoint as the same (e.g.: http://localhost:8181/geoserver/rest/ if using Docker or http://localhost:8080/geoserver/rest/ if using a default installation of GeoServer).
 6. No API Key is required.
-7. Press "Save".
+7. Fill out the username and password (default username and password is "admin" and "geoserver", respectively).
+8. Press "Save".
+
+.. Note:: 
+    
+    For security reasons, after the password is saved the field will always show four placeholder pips no matter the lenghth of the password itself.
 
 .. important::
 
