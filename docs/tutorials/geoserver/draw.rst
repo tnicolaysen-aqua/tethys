@@ -7,11 +7,9 @@ Spatial Input
 1. Spatial Input Controller
 ===========================
 
-Add a new controller to the :file:`controller.py` module:
+Add the following code that will allow you to draw on your map into your :file:`controller.py` module:
 
 .. code-block:: python
-
-    from .app import App
 
     @controller
     def draw(request):
@@ -66,7 +64,7 @@ Create a new :file:`draw.html` template in your template directory and add the f
 3. Add Navigation Links
 =======================
 
-Replace the ``app_navigation_items`` block of the :file:`base.html` template with:
+Add some page links to facilitate navigation from your home page to your map page.  Replace the ``app_navigation_items`` block of the :file:`base.html` template with:
 
 .. code-block:: html+django
 
@@ -84,7 +82,7 @@ Replace the ``app_navigation_items`` block of the :file:`base.html` template wit
 4. Test Spatial Input Page
 ==========================
 
-Navigate to the spatial input page using the "Draw" link in your navigation (`<http://localhost:8000/apps/geoserver-app/draw/>`_). Use the drawing controls to add features to the map, then press the submit button. The GeoJSON encoded spatial data should be displayed when the page refreshes.
+Navigate to the spatial input page using the "Draw" link in your navigation (`<http://localhost:8000/apps/geoserver-app/draw/>`_). Use the drawing controls to add features to the map, then press the submit button. The GeoJSON encoded spatial data should be displayed above the map when the page refreshes.
 
 5. Solution
 ===========

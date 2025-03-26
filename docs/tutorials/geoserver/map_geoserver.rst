@@ -7,7 +7,10 @@ Map GeoServer Layers
 1. Map Page Controller
 ======================
 
-Add a new controller to the :file:`controller.py` module:
+We'll begin by adding our map page's controller. This controller function will do a few things:
+1. It will add a select input gizmo to the page (select_options=SelectInput)
+2. It will add an interactive map view to the page
+3. It will handle post requests to update the layer that is displayed on the map
 
 .. code-block:: python
 
@@ -104,6 +107,10 @@ Create a new :file:`map.html` template in your template directory and add the fo
 ================
 
 Navigate to the map page (`<http://localhost:8000/apps/geoserver-app/map/>`_). Use the select box to select a layer to display on the map. Press the submit button to effect the change.
+
+.. Note::
+
+    We will add a button to navigate from the home page to the map in the next part of the tutorial.
 
 4. Solution
 ===========
