@@ -8,6 +8,10 @@ Key Concepts
 
 This tutorial will walk you through the steps of setting up a new Tethys App project using Tethys Platform and teach you the key concepts of Tethys App development.
 
+.. tip::
+
+    For a basic overview of some of the key concepts of the Tethys Platform, see :doc:`../../supplementary/key_concepts`.
+
 .. figure:: ../images/tutorial/advanced/key-concepts-advanced-screenshot.png
     :width: 800px
     :align: center

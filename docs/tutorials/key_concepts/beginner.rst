@@ -25,8 +25,9 @@ This tutorial introduces important concepts for first-time or beginner Tethys de
     2. Enter ``conda activate tethys`` to change to the Tethys environment.
     3. Enter ``tethys start`` to start the Tethys development server.  This will start a locally running web server.
     4. Access the Tethys Portal by going to http://localhost:8000 in your browser.
-
-    To end the session go the terminal running the development server and press ctrl + C. 
+    
+    
+    To end the session open the terminal running the development server and press ctrl + C. 
 
 1. App Class
 ============
@@ -35,9 +36,9 @@ The app class, located in ``app.py`` is the primary configuration file for Tethy
 
 a. Open ``app.py`` in your favorite Python IDE or text editor.
 
-b. Change the theme color of your app by changing the value of the ``color`` property of the ``DamInventory`` class. Use a site like `color-hex <http://www.color-hex.com/>`_ to find an appropriate hexadecimal RGB color.
+b. Change the theme color of your app by changing the value of the ``color`` property of the ``App`` class. Use a site like `color-hex <http://www.color-hex.com/>`_ to find an appropriate hexadecimal RGB color.
 
-c. You can also change the icon of your app. Find a new image online (square images work best) and save it in the ``public/images/`` directory of your app. Then change the value of the ``icon`` property of the ``DamInventory`` class to match the name of the image.
+c. You can also change the icon of your app. Find a new image online (square images work best) and save it in the ``public/images/`` directory of your app. Then change the value of the ``icon`` property of the ``App`` class to match the name of the image.
 
 .. tip::
 
@@ -54,11 +55,11 @@ Other settings for your app can be configured in the app settings. App settings 
 
 a. To access the app settings, click on the Settings button (gear icon) at the top right-hand corner of your app.
 
-b. Change the Name and Description of your app by changing their respective values on the app settings page. Press the ``Save`` button, located at the bottom of the app settings page. Then navigate back to your app to see the changes.
+b. Change the Name and Description of your app by changing their respective values on the app settings page. Press the ``Save`` button, located at the bottom of the app settings page. Then navigate back to the app gallery page to see the changes you made. Click on the "i" button in the top right of the app's icon to see your description.
 
 You can also create custom settings for your app that can be configured on the app settings page:
 
-a. Open the ``app.py`` and add the ``custom_settings()`` method to the ``DamInventory`` class. Don't forget to import ``CustomSetting``:
+a. Open the ``app.py`` and add the ``custom_settings()`` method to the ``App`` class. Don't forget to import ``CustomSetting``:
 
     .. code-block:: python
 
@@ -155,7 +156,7 @@ a. Create a new file ``/templates/dam_inventory/add_dam.html`` and add the follo
     This is the simplest template you can create in a Tethys app, which amounts to a blank Tethys app page. You must extend the ``base.html`` for the page to inherit the default layout of the app.
 
 
-b. Create a new controller function called ``add_dam`` at the bottom of the ``controllers.py``:
+b. Create a new controller function called ``add_dam`` at the bottom of the ``controllers.py`` file:
 
     .. code-block:: python
 
@@ -184,7 +185,7 @@ c. At this point you should be able to access the new page by entering its URL i
 6. View for the New Page
 ========================
 
-Views for Tethys apps are constructed using the standard web programming tools: HTML, JavaScript, and CSS. Additionally, HTML templates can use the `Django Template Language <https://docs.djangoproject.com/en/5.0/ref/templates/language/>`_, because Tethys Platform is build on Django. This allows you to code logic into your HTML documents, using template tags, making the web pages of your app dynamic and reusable.
+Views for Tethys apps are constructed using the standard web programming tools: HTML, JavaScript, and CSS. Additionally, HTML templates can use the `Django Template Language <https://docs.djangoproject.com/en/5.0/ref/templates/language/>`_, because Tethys Platform is built on Django. This allows you to code logic into your HTML documents, using template tags, making the web pages of your app dynamic and reusable.
 
 a. Modify the ``template/dam_inventory/add_dam.html`` with a title in the app content area and add ``Add`` and ``Cancel`` buttons to the app actions area:
 
@@ -244,7 +245,7 @@ a. Define the options for the ``Add`` and ``Cancel`` button gizmos in the ``add_
                 display_text='Add',
                 name='add-button',
                 icon='plus-square',
-                style='success'
+                style='success',
             )
 
             cancel_button = Button(

@@ -36,7 +36,7 @@ The peristent store API currently only works with the PostgreSQL databases. Howe
 
 a. Install PostgreSQL database with the PostGIS extension using Docker:
 
-    a. Install `Docker Desktop <https://www.docker.com/products/docker-desktop>`_ or `Docker Engine <https://docs.docker.com/engine/install/>`_.
+    a. Install `Docker Desktop <https://www.docker.com/products/docker-desktop>`_ or `Docker Engine <https://docs.docker.com/engine/install/>`_.  Open Docker and have it run in the background while you complete the tutorial.
 
     b. Open a terminal and run the following command to create a new PostgreSQL with PostGIS Docker container:
 
@@ -68,13 +68,24 @@ c. Configure Tethys to use PostgreSQL database:
 
         tethys settings --set DATABASES.default.ENGINE django.db.backends.postgresql --set DATABASES.default.NAME tethys_platform --set DATABASES.default.USER tethys_default --set DATABASES.default.PASSWORD pass --set DATABASES.default.HOST localhost --set DATABASES.default.PORT 5432
 
-    c. Run the ``tethys db configure`` command to prepare the database for use by the Tethys portal:
+    c. Run the correct ``tethys db configure`` command for your system to prepare the database for use by the Tethys portal:
 
     .. code-block:: bash
+       
+        # Windows System
+        set PGPASSWORD=mysecretpassword
+        tethys db configure
 
+        # Unix System
         PGPASSWORD=mysecretpassword tethys db configure
 
+    
     The default password for the ``postgis/postgis`` container is "mysecretpassword". If you changed it, you will need to replace it in the command above.
+
+    .. Note::
+        
+        Command line interfaces will not show the keystrokes when entering passwords.  Don't worry if you are typing the password into the terminal and nothing shows up on the screen.
+
 
     d. Start Tethys the development server (``tethys manage start``) and verify that the app is still working.
 
@@ -89,9 +100,9 @@ c. Configure Tethys to use PostgreSQL database:
 2. Persistent Store Database
 ============================
 
-    In the :doc:`./intermediate` tutorial we implemented a file-based database as the persisting mechanism for the app. However, simple file based databases typically don't perform well in a web application environment, because of the possibility of many concurrent requests trying to access the file. In this section we'll refactor the Model to use an SQL database, rather than files.
+In the :doc:`./intermediate` tutorial we implemented a file-based database as the persisting mechanism for the app. However, simple file based databases typically don't perform well in a web application environment, because of the possibility of many concurrent requests trying to access the file. In this section we'll refactor the Model to use an SQL database, rather than files.
 
-    a. Add necessary dependencies:
+a. Add necessary dependencies:
 
     Persistent stores is an optional feature in Tethys, and requires that the ``sqlalchemy<2`` and ``psycopg2`` libraries are installed. Install these libraries using one of the following commands:
 
@@ -101,9 +112,11 @@ c. Configure Tethys to use PostgreSQL database:
             conda install -c conda-forge "sqlalchemy<2" psycopg2
 
             # pip
-            pip install "sqlalchemy<2" psycopg2
-
-    Now add the new dependencies to your :file:`install.yml` as follows so that the app will work when installed in a new environment:
+            pip install "sqlalchemy<2" psycopg2    
+   
+    
+      
+    Now add the new dependencies to ``/tethysapp-dam_inventory/install.yml`` as follows so that the app will work when installed in a new environment:
 
     .. code-block:: yaml
         :emphasize-lines: 13, 15-16
@@ -135,6 +148,7 @@ c. Configure Tethys to use PostgreSQL database:
 b. Open the ``app.py`` and define a new ``PersistentStoreDatabaseSetting`` by adding the ``persistent_store_settings`` method to your app class:
 
     .. code-block:: python
+        :emphasize-lines: 1, 8-21
 
         from tethys_sdk.app_settings import PersistentStoreDatabaseSetting
 
@@ -165,15 +179,13 @@ c. Define a table called ``dams`` by creating a new class in ``model.py`` called
 
     .. code-block:: python
 
-        import json
         from sqlalchemy.ext.declarative import declarative_base
         from sqlalchemy import Column, Integer, Float, String
         from sqlalchemy.orm import sessionmaker
-
         from .app import App
 
+        ...
         Base = declarative_base()
-
 
         # SQLAlchemy ORM definition for the dams table
         class Dam(Base):
@@ -427,7 +439,7 @@ h. Refactor the ``list_dams`` controller to use updated model methods:
 
             ...
 
-i. Remove references to workspace in ``build_map_extent_and_view`` method: 
+i. Remove references to workspace in ``build_map_extent_and_view`` method in ``controllers.py``: 
 
 .. code-block:: python
     :emphasize-lines: 1, 8
@@ -483,7 +495,7 @@ l. Assign the new **Persistent Store Service** to the Dam Inventory App:
 
     a. Go to Tethys Portal Home in a web browser (e.g. http://localhost:8000/apps/)
     b. Select **Site Admin** from the drop down next to your username.
-    c. Scroll down to the **Tethys Apps** section and select the **Installed App** link.
+    c. Scroll down to the **Tethys Apps** section and select the **Installed Apps** link.
     d. Select the **Dam Inventory** link.
     e. Scroll down to the **Persistent Store Database Settings** section.
     f. Assign the **Persistent Store Service** that you created in Step 4 to the **primary_db** setting.

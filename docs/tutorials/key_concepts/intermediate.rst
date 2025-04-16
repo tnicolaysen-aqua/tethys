@@ -20,7 +20,7 @@ This tutorial introduces intermediate concepts for Tethys developers. The topics
 0. Start From Beginner Solution (Optional)
 ==========================================
 
-If you wish to use the beginner solution of the last tutorial as a starting point:
+If you wish to use the beginner solution of the last tutorial as a starting point enter the following commands into a terminal:
 
 .. parsed-literal::
 
@@ -61,10 +61,10 @@ HTML forms are the primary mechanism for obtaining input from users of your app.
 
     Also note that the ``method`` attribute of the ``<form>`` element is set to ``post``. This means the form will use the POST HTTP method to submit and transmit the data to the server. For an introduction to HTTP methods, see `The Definitive Guide to GET vs POST <http://blog.teamtreehouse.com/the-definitive-guide-to-get-vs-post>`_.
 
-b. Define the options for the form gizmos in the controller and change the ``add_button`` gizmo to be a submit button for the form in the ``add_dam`` controller:
+b. Define the options for the form gizmos in the controller and change the ``add_button`` gizmo to be a submit button for the form in the ``add_dam`` controller in ``controllers.py``:
 
     .. code-block:: python
-        :emphasize-lines: 1, 11-38, 45-46, 56-59
+        :emphasize-lines: 1, 10-38, 45-46, 56-59
 
         from tethys_sdk.gizmos import TextInput, DatePicker, SelectInput
 
@@ -78,7 +78,7 @@ b. Define the options for the form gizmos in the controller and change the ``add
             # Define form gizmos
             name_input = TextInput(
                 display_text='Name',
-                name='name'
+                name='name',
             )
 
             owner_input = SelectInput(
@@ -92,7 +92,7 @@ b. Define the options for the form gizmos in the controller and change the ``add
             river_input = TextInput(
                 display_text='River',
                 name='river',
-                placeholder='e.g.: Mississippi River'
+                placeholder='e.g.: Mississippi River',
             )
 
             date_built = DatePicker(
@@ -136,7 +136,7 @@ b. Define the options for the form gizmos in the controller and change the ``add
 
 At this point the form will be functional, but the app is not doing anything with the data when the user submits the form. In this section we'll implement a pattern for handling the form submission and validating the form.
 
-a. Change the ``add_dam`` controller to handle the form data using the form validation pattern:
+a. Change the ``add_dam`` controller in ``controllers.py`` to handle the form data using the form validation pattern:
 
     .. code-block:: python
         :emphasize-lines: 1-2, 10-52, 58-59, 67-68, 75-76, 86-87
@@ -304,7 +304,7 @@ In this tutorial we will start with a simple file database model to illustrate h
 
     File database models can be problematic for web applications, especially in a production environment. We recommend using a SQL or other type of database that can handle concurrent requests and heavy traffic.
 
-a. Create a new file called ``model.py`` in the ``dam_inventory`` directory and add a new function called ``add_new_dam``:
+a. Create a new file called ``model.py`` in the ``/tethysapp/dam_inventory`` directory and add a new function called ``add_new_dam``:
 
     .. code-block:: python
 
@@ -344,7 +344,7 @@ a. Create a new file called ``model.py`` in the ``dam_inventory`` directory and 
             with file_path.open('w') as f:
                 f.write(dam_json)
 
-b. Modify ``add_dam`` controller to use the new ``add_new_dam`` model function to persist the dam data:
+b. Modify ``add_dam`` controller in ``controllers.py`` to use the new ``add_new_dam`` model function to persist the dam data:
 
     .. code-block:: python
         :emphasize-lines: 1, 5-6, 49-55
@@ -783,7 +783,7 @@ b. Add the definition of the ``location_input`` gizmo and validation code to the
 
             return App.render(request, 'add_dam.html', context)
 
-c. Modify the ``add_new_dam`` Model Method to store spatial data:
+c. Modify the ``add_new_dam`` model method in ``model.py`` to store spatial data:
 
     .. code-block:: python
         :emphasize-lines: 1, 5-6, 12
