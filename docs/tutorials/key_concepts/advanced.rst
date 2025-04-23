@@ -72,13 +72,14 @@ c. Configure Tethys to use PostgreSQL database:
 
     .. code-block:: bash
        
-        # Windows System
+        # Windows Systemsdfasd
         set PGPASSWORD=mysecretpassword
         tethys db configure
 
         # Unix System
         PGPASSWORD=mysecretpassword tethys db configure
 
+    
     
     The default password for the ``postgis/postgis`` container is "mysecretpassword". If you changed it, you will need to replace it in the command above.
 
@@ -419,7 +420,7 @@ g. Refactor the ``add_dam`` controller to use the updated model methods:
 h. Refactor the ``list_dams`` controller to use updated model methods:
 
     .. code-block:: python
-        :emphasize-lines: 1-2, 6, 12-13
+        :emphasize-lines: 1-6, 12-13
 
         @controller(name='dams', url='dams')
         def list_dams(request):
@@ -519,11 +520,10 @@ In the :doc:`./beginner` tutorial, we created a custom setting named `max_dams`.
 a. Modify the `add_dam` controller, such that it won't add a new dam if the `max_dams` limit has been reached:
 
     .. code-block:: python
-        :emphasize-lines: 1-2, 57-75
+        :emphasize-lines: 1, 56-74
 
         from .model import Dam
-        from .app import App
-
+        
         ...
 
         @controller(url='dams/add')
@@ -613,11 +613,11 @@ a. Modify the `add_dam` controller, such that it won't add a new dam if the `max
 
 By default, any user logged into the app can access any part of it. You may want to restrict access to certain areas of the app to privileged users. This can be done using the :doc:`../../tethys_sdk/permissions`. Let's modify the app so that only admin users of the app can add dams to the app.
 
-a. Define permissions for the app by adding the ``permissions`` method to the app class in the ``app.py``:
+a. Define permissions for the app by adding the ``permissions`` method to the app class in the ``app.py`` file.
 
     .. code-block:: python
-
-        ...
+        :emphasize-lines: 1, 9-25
+        
 
         from tethys_sdk.permissions import Permission, PermissionGroup
 
@@ -645,7 +645,7 @@ a. Define permissions for the app by adding the ``permissions`` method to the ap
 
                 return permissions
 
-b. Protect the Add Dam view with the ``add_dams`` permission by setting the ``permissions_required`` argument of the ``controller`` decorator:
+b. Protect the Add Dam view with the ``add_dams`` permission by setting the ``permissions_required`` argument of the ``controller`` decorator in ``controllers.py``:
 
     .. code-block:: python
         :emphasize-lines: 1
@@ -660,7 +660,7 @@ b. Protect the Add Dam view with the ``add_dams`` permission by setting the ``pe
 c. Add a context variable called ``can_add_dams`` to the context of each controller with the value of the return value of the ``has_permission`` function:
 
     .. code-block:: python
-        :emphasize-lines: 1, 14-22, 36, 51
+        :emphasize-lines: 1, 14-22, 42-43, 57-58
 
         from tethys_sdk.permissions import has_permission
 
@@ -696,7 +696,14 @@ c. Add a context variable called ``can_add_dams`` to the context of each control
             ...
 
             context = {
-                ...
+                'name_input': name_input,
+                'owner_input': owner_input,
+                'river_input': river_input,
+                'date_built_input': date_built,
+                'location_input': location_input,
+                'location_error': location_error,
+                'add_button': add_button,
+                'cancel_button': cancel_button,
                 'can_add_dams': has_permission(request, 'add_dams')
             }
 
@@ -711,7 +718,7 @@ c. Add a context variable called ``can_add_dams`` to the context of each control
             ...
 
             context = {
-                ...
+                'dams_table': dams_table,
                 'can_add_dams': has_permission(request, 'add_dams')
             }
             return App.render(request, 'list_dams.html', context)
@@ -777,11 +784,12 @@ f. Log in with each user account. If the permission has been applied correctly, 
 5. Persistent Store Related Tables
 ==================================
 
-Add Flood Hydrograph table
+We will now add a graph to the app using one of our Gizmos (see :doc:`../../tethys_sdk/gizmos`) that will display a hydrograph based on data we will input later.
 
 a. Define two new tables to ``model.py`` for storing the hydrograph and hydrograph points. Also, establish relationships between the tables. Each dam will have only one hydrograph and each hydrograph can have multiple hydrograph points.
 
     .. code-block:: python
+        :emphasize-lines: 1-2, 12-44
 
         from sqlalchemy import ForeignKey
         from sqlalchemy.orm import relationship
@@ -828,7 +836,7 @@ a. Define two new tables to ``model.py`` for storing the hydrograph and hydrogra
             # Relationships
             hydrograph = relationship('Hydrograph', back_populates='points')
 
-b. Execute **syncstores** command again to add the new tables to the database:
+b. Execute **syncstores** command in the terminal again to add the new tables to the database:
 
     .. code-block:: bash
 
@@ -837,11 +845,9 @@ b. Execute **syncstores** command again to add the new tables to the database:
 
 6. File Upload
 ==============
+In this step we will be creating a method to upload CSV files that contain data for the dam hydrographs.
 
-CSV File Upload
-Create new page for uploading the hydrograph.
-
-a. New Model function
+a. Create a new model function at the end of the ``model.py`` file.
 
     .. code-block:: python
 
@@ -897,8 +903,8 @@ a. New Model function
 
             return True
 
-b. New Template: ``assign_hydrograph.html``
-
+b. Make a new template in ``templates/dam_inventory`` folder called ``assign_hydrograph.html`` and add the following content:
+    
     .. code-block:: html+django
 
         {% extends tethys_app.package|add:"/base.html" %}
@@ -924,13 +930,12 @@ b. New Template: ``assign_hydrograph.html``
         {% endblock %}
 
 
-c. New Controller
+c. Add a new controller, ``assign_hydrograph``, to ``controllers.py``.
 
     .. code-block:: python
 
         from .model import assign_hydrograph_to_dam
-        from .app import App
-
+        
         ...
 
         @controller(url='hydrographs/assign')
@@ -1020,7 +1025,7 @@ c. New Controller
 
             return App.render(request, 'assign_hydrograph.html', context)
 
-d. Update header buttons and navigation
+d. Update the header buttons and navigation items in ``base.html`` to account for the new page.
 
     .. code-block:: html+django
         :emphasize-lines: 5, 16-18
@@ -1065,18 +1070,21 @@ d. Update header buttons and navigation
 
 .. _sample_hydrographs:
 
-e. Test upload with these files:
+e. Download the sample hydrograph CSV files to test the upload functionality of your app.  
 
     :download:`Sample Hydrograph CSVs <./hydrographs.zip>`
+
+Unzip the ``hydrographs`` file.  In the app, click on the "Assign Hydrograph" button in the navigation bar of the app.  Fill out the form and assign one of the CSV files to a dam.  Then click the "+Add" button in the lower right corner of the window.  The hydrograph file is now assigned to a dam.
+
 
 7. URL Variables and Plotting
 =============================
 
-Create a new page with hydrograph plotted for selected Dam
+Now we will create a new page that will display a hydrograph for a selected dam.
 
 a. Add necessary dependencies:
 
-    In order to plot the hydrograph, you will need to install the ``plotly`` library. Install this library using one of the following commands:
+    In order to plot the hydrograph, you will need to install the ``plotly`` library. Install this library by entering one of these commands in the terminal:
 
     .. code-block:: bash
 
@@ -1115,7 +1123,7 @@ a. Add necessary dependencies:
 
         post:
 
-b. Create Template ``hydrograph.html``
+b. Create a new template in ``templates/dam_inventory`` called ``hydrograph.html`` and add the following:
 
     .. code-block:: html+django
 
@@ -1131,7 +1139,7 @@ b. Create Template ``hydrograph.html``
         {% gizmo hydrograph_plot %}
         {% endblock %}
 
-c. Create ``helpers.py``
+c. Create a new file called ``helpers.py`` and add the following:
 
     .. code-block:: python
 
@@ -1171,7 +1179,7 @@ c. Create ``helpers.py``
             session.close()
             return data, layout
 
-d. Create Controller
+d. Add a new controller, ``hydrograph``, to ``controllers.py``.
 
     .. code-block:: python
 
@@ -1218,10 +1226,10 @@ e. Add ``get_hydrograph`` helper function to ``model.py``
             else:
                 return None
 
-f. Modify ``list_dams`` controller (and add needed imports):
+f. Modify the ``list_dams`` controller and add needed imports in ``controllers.py``:
 
     .. code-block:: python
-        :emphasize-lines: 14-20, 16, 26, 31
+        :emphasize-lines: 1-2, 14-20, 25-26, 31
 
         from django.utils.html import format_html
         from .model import get_hydrograph
@@ -1267,14 +1275,14 @@ f. Modify ``list_dams`` controller (and add needed imports):
 
             return App.render(request, 'list_dams.html', context)
 
-g. Test by going to the Dams page and clicking on the new ``Hydrograph Plot`` button in the table for a dam that has already been assigned a hydrograph.
+g. To test, navigate to the Dams page and click the "Hydrograph Plot" button for a dam with an assigned hydrograph. A new page displaying the dam's hydrograph should open.
 
 8. Dynamic Hydrograph Plot in Pop-Ups
 =====================================
 
-Add Hydrographs plot button to map pop-ups.
+Add a hydrographs plot button to map pop-ups.
 
-a. Update the ``HomeMap`` controller to include the hydrograph plot button in the pop-up:
+a. Update the ``HomeMap`` controller in ``controllers.py`` to include the hydrograph plot button in the pop-up:
 
     .. code-block:: python
         :emphasize-lines: 9, 13-35
