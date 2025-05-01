@@ -258,7 +258,7 @@ The must be explicitly defined since they default to ``False``. Here's what they
 * **show_properties_popup**: Wires up a properties dialog that will now popup automatically when clicking on a feature and display the ``properties`` metadata associated with the feature as defined in the GeoJSON file. This will only apply to features that were configured with ``selectable = True``, as we did with our NextGen layers in the last section.
 * **plot_slide_sheet**: Adds a ``Plot`` button to the properties dialog described in the line above and wire up the button to call the ``get_plot_for_features`` function when clicked (this function is discussed next). This will only apply to features that were configured with ``plottable = True``, as we did with our NextGen layers in the last section.
 
-With just those two lines added, the popup generated when clicking on a featuer will look like this:
+With just those two lines added, the popup generated when clicking on a feature will look like this:
 
 .. figure:: ./resources/popup_example.png
     :width: 800px
@@ -353,7 +353,7 @@ Here's a closer look at that function:
                 return f'Evapotranspiration at Catchment "{id}"', data, layout
 
 
-This function is passed six standard arguments: ``request``, ``layer_name``, ``feature_id``, ``layer_data``, ``feature_props``, and ``app_workspace``. In our case, we only need to use the ``layer_name``, ``feature_props``, and ``app_workspace`` variable. We'll describe how each is used as we explore what this function does.
+This function is passed six standard arguments: ``request``, ``layer_name``, ``feature_id``, ``layer_data``, ``feature_props``, and ``app_workspace``. In our case, we only need to use the ``layer_name``, ``feature_props``, and ``app_workspace`` variable.
 
 This function does the following:
 

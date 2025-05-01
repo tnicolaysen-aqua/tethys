@@ -16,6 +16,7 @@ In this tutorial you will configure your Tethys app with the Map Layout. This fe
 If you wish to use the previous solution as a starting point, do the following:
 
 1. Clone the tutorial and switch to the appropriate branch
+
 .. parsed-literal::
 
     git clone https://github.com/tethysplatform/tethysapp-map_layout_tutorial.git
@@ -25,9 +26,9 @@ If you wish to use the previous solution as a starting point, do the following:
 1. Swap default home controller with Map Layout
 ===============================================
 
-When you scaffold a new app, by default the :file:`controllers.py` script contains a ``home`` function that controls the backend logic for the home screen of your app. It is of course possible to add a Map View and other map tools using Tethys Gizmos, but since we know we want a single-page web mapping application with very common web mapping features, we can instead configure the Tethys Map Layout.
+When you scaffold a new app, by default the :file:`controllers.py` script contains a ``home`` function that controls the backend logic for the home screen of your app. It is possible to add a Map View and other map tools using Tethys Gizmos. However, since we know we want a single-page web mapping application with very common web mapping features, we can instead configure the Tethys Map Layout.
 
-This can be done by replacing the entire :file:`controllers.py` with the following code:
+This can be done by replacing the entire contents of :file:`controllers.py` with the following code:
 
 .. code-block:: python
 
@@ -45,7 +46,7 @@ This can be done by replacing the entire :file:`controllers.py` with the followi
 
 It is that simple! Return to your app in the browser (http://localhost:8000/apps/map-layout-tutorial/), refresh if needed, and confirm the change. It should look like the screenshot at the top of this section.
 
-With just under a dozen lines of code, you now have a fully interactive map with extent controls, basemap layer change, full screen mode, and a layers panel.
+With under a dozen lines of code, you now have a fully interactive map with extent controls, basemap layer change, full screen mode, and a layers panel.
 
 We will learn how to further customize the Map Layout and add our sample NextGen data in the next sections.
 

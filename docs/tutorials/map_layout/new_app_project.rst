@@ -43,9 +43,10 @@ In a file browser change into your :file:`Home` directory and open the :file:`te
 2. Add App Dependencies to :file:`install.yml`
 ==============================================
 
-App dependencies should be managed using the :file:`install.yml` instead of the :file:`setup.py`. This app will only require the third-party ``pandas`` package, which will be used to read in the NextGen CSV outputs that we'll explore in the next section. This package is available on ``conda-forge``, which is the preferred Conda channel for Tethys. Open :file:`tethysapp-map_layout_tutorial/install.yml` and add this dependency to the ``requirements.conda`` section of the file:
+App dependencies should be managed using the :file:`install.yml` instead of the :file:`setup.py`. This app will only require the third-party ``pandas`` package, which will be used to read in the NextGen CSV outputs that we'll explore in the next section. This package is available on ``conda-forge``, which is the preferred Conda channel for Tethys. Open :file:`tethysapp-map_layout_tutorial/install.yml` and add these dependencies to the ``requirements.conda`` section of the file:
 
 .. code-block:: yaml
+    :emphasize-lines: 13, 15
 
     # This file should be committed to your app code.
     version: 1.1
@@ -82,9 +83,10 @@ Install the app and it's dependencies into your development Tethys Portal. In a 
 4. Customize App Icon and Theme Color
 =====================================
 
-Download this :download:`NOAA Digital Logo <./resources/noaa_digital_logo-2022.png>` or find one that you like and save it to the :file:`public/images` directory. Modify the ``icon`` property of your :term:`app class` to reference the new image. Also change the ``color`` property to the ``#003087`` color:
+Download this :download:`NOAA Digital Logo <./resources/noaa_digital_logo-2022.png>` or find one that you like and save it to the :file:`map_layout_tutorial/public/images` directory.  In ``app.py`` Modify the ``icon`` property of your :term:`app class` to reference the new image. Also change the ``color`` property to the ``#003087`` color:
 
 .. code-block:: python
+    :emphasize-lines: 9, 11
 
     class App(TethysAppBase):
         """
@@ -112,7 +114,7 @@ Download this :download:`NOAA Digital Logo <./resources/noaa_digital_logo-2022.p
 
     To stop the development server press :kbd:`CTRL-C`.
 
-1. Browse to `<http://127.0.0.1:8000/apps/>`_ in a web browser and login. The default portal user is:
+1. Browse to `<http://127.0.0.1:8000/apps/>`_ in a web browser and login. The default portal user credentials are:
 
 * **username**: admin
 * **password**: pass

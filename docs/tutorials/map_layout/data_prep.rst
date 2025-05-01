@@ -20,7 +20,7 @@ If you wish to use the previous solution as a starting point:
 1. Download the sample NextGen data
 ===================================
 
-1. Download our sample NextGen data: `sample_nextgen_data.zip <https://drive.google.com/file/d/10Q960TiHNer-6cwjPYN_t4KsOX2917Hl/view?usp=share_link>`_
+1. Download our sample NOAA-OWP NextGen water model data: `sample_nextgen_data.zip <https://drive.google.com/file/d/10Q960TiHNer-6cwjPYN_t4KsOX2917Hl/view?usp=share_link>`_
 2. Save to :file:`$TETHYS_HOME/workspaces/map_layout_tutorial/app_workspace`
 3. Unzip the contents to the same location
 4. Delete the zip file
@@ -32,31 +32,12 @@ If you wish to use the previous solution as a starting point:
 2. Explore the Data
 ===================
 
-1. Enter the :file:`sample_nextgen_data` folder and note two subfolders named :file:`config` and :file:`outputs`. 
+1. Open the :file:`outputs` folder you just created.  You will see two types of file formats here: `.parquet` and `CSV` files.  The `CSV` files contain the time-series outputs of the NextGen model.  Files formatted :file:`<catID>.csv`` contain water catchment outputs.  Files formatted :file:`<nexID>_output.csv` contain nexus outputs.
 
-The :file:`config` folder contains files that are used to configure and run the NextGen model. The :file:`outputs` folder contains the output files generated from the model run.
+2. Open the :file:`config` folder.  There are several file formats but the one relevant to this tutorial is :file: `.geojson`.  GeoJSON is a standardized spatial data format used to represent the locations and shapes of geographic features.  You will find GeoJSON files that correspond to different datasets: nexus points (`nexus.geojson`), flowpaths (`flowpaths.geojson`), and catchments (`catchments.geojson`).
 
-2. Enter the :file:`outputs` folder
+3. Open the :file:`nexus.geojson` file.  The coordinate reference system (CRS) for the data is found at the end of the "name", ``...EPSG::5070`` (i.e. NAD83).  If we want to use it in our web-map we need to reproject it into either ``EPSG:4326`` (i.e. WGS84 geographic) or ``EPSG:3857`` (i.e. WGS84 projected).  In the next step well change the data to project in the ``EPSG:4326`` CRS.  
 
-Note that there are nearly 1,000 files in this folder - most of which are in CSV format. These are the time-series outputs of the NextGen model - one per each catchment and nexus that was modeled. The catchment outputs are all named :file:`<catID>.csv` and the nexus outputs are named :file:`<nexID>_output.csv`. You can open up each and take a look at them. We will come back to these files later in the tutorial as we work on being able to dynamically view them within this tutorial's Tethys app.
-
-3. Return to the :file:`sample_nextgen_data` folder
-
-4. Enter the :file:`config` folder
-
-Note the various file formats (i.e. suffixes). The only files of interest to us are those ending in :file:`.geojson`, representing the GeoJSON format. GeoJSON is a standardized, spatial data format used to represent the locations and shapes of features on the earth. Some inputs to the NextGen model fall under this category: namely, the nexus points, flowpaths and catchments. Note that there is a :file:`.geojson` file containing the spatial data for each of these datasets: :file:`nexus.geojson`, :file:`flowpaths.geojson`, and :file:`catchments.geojson`
-
-.. tip::
-
-  You can learn more about GeoJSON on `the official website <https://geojson.org/>`_.
-
-6. Open the :file:`nexus.geojson` file
-
-Any editor will do. 
-
-7. Note the coordinate reference system
-
-This is found under the path ``crs > properties > name`` and shows ``urn:ogc:def:crs:EPSG::5070``. The most common projections for web-mapping (including Tethys) are ``EPSG:4326`` (i.e. ``WGS84``) and ``EPSG:3857``. We will need ensure that any data we intend to visualize in our Tethys application is in one of these formats into one of these formats. We'll go with ``EPSG:4326``.
 
 3. Reproject the Spatial Data
 =============================
@@ -65,13 +46,11 @@ There are various packages and tools out there that can be used to reproject spa
 
 1. Create a subfolder in the :file:`~/tethysdev/tethysapp-map_layout_tutorial` folder called :file:`scripts`.
 
-2. Enter this new :file:`scripts` folder
-
-3. Create a file called :file:`reproject_environment.yml`.
+2. Enter the:file:`scripts` folder and create a file called :file:`reproject_environment.yml`.
 
 This file will define the conda environment required to run the reproject script we will create.
 
-4. Paste the following into the file:
+3. Paste the following ``YAML`` code into the file:
 
 .. code-block:: yaml
 
@@ -82,13 +61,13 @@ This file will define the conda environment required to run the reproject script
     - python >=3.11
     - geopandas
 
-5. Save and close this file
+4. Save and close this file
 
-6. Create another file called :file:`reproject.py`.
+5. Create another file  in the :file:`scripts` folder called :file:`reproject.py`.
 
 This file will contain the actual logic that performs the reprojection.
 
-7. Paste the following into the file:
+6. Paste the following ``python`` code into the file:
 
 .. code-block:: python
 
@@ -114,11 +93,9 @@ The ``argparse`` library is used to provide useful command-line management to yo
 
 The ``geopandas`` library is a powerful library for interacting with spatial data in various formats. Note that the main logic that performs the reprojection is contained on a single line. The GeoJSON file is read into memory, reprojected, and then written back out to a new GeoJSON file.
 
-8. Save and close this file
+7. Save and close this file.
 
-7. Open the Anaconda Prompt application
-
-8. Create and activate the reproject environment
+8. Open your computer's terminal and enter the following commands to create and activate the reproject environment.
 
 .. code-block:: bash
 
@@ -126,7 +103,6 @@ The ``geopandas`` library is a powerful library for interacting with spatial dat
   conda env create -f reproject_environment.yml
   conda activate reproject
 
-This will create the conda/python environment for executing your script and then make it the active environment.
 
 9. Run the reprojection script on the catchment and nexus datasets
 

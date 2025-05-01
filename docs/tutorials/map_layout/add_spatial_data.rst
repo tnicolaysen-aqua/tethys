@@ -210,14 +210,17 @@ As mentioned, it would be nice if our application would load with the data alrea
 Solve the problem by adding the following properties to our ``MapLayoutTutorialMap`` class, just below the ``map_subtitle`` property:
 
 .. code-block:: python
+    :emphasize-lines: 7-9
     
+    @controller(name="home", app_workspace=True)
     class MapLayoutTutorialMap(MapLayout):
-        ...
-        ...
-        ...
-        default_map_extent = [-87.83371926334216, 33.73443611122197, -86.20833410475134, 34.456557011634175]
-        max_zoom = 14
-        min_zoom = 9
+    app = App
+    base_template = 'map_layout_tutorial/base.html'
+    map_title = 'Map Layout Tutorial'
+    map_subtitle = 'NOAA-OWP NextGen Model Outputs'
+    default_map_extent = [-87.83371926334216, 33.73443611122197, -86.20833410475134, 34.456557011634175]
+    max_zoom = 14
+    min_zoom = 9
 
 .. tip::
 
@@ -240,7 +243,7 @@ Now if you reload your map, our NextGen data will be centered and focused from t
 3. Adjust the layer styles
 ==========================
 
-Replace your :file:`controllers.py` with the following:
+Replace the code in :file:`controllers.py` with the following:
 
 .. code-block:: python
 
