@@ -35,6 +35,7 @@ In this step you'll learn to use another Leaflet plugin: `Leaflet.Draw <http://l
 1. Include Leaflet Draw scripts and stylesheets in :file:`templates/thredds_tutorial/home.html`:
 
 .. code-block:: html+django
+    :emphasize-lines: 7, 19 
 
     {% block styles %}
       {{ block.super }}
@@ -126,26 +127,30 @@ In this step you'll learn to use another Leaflet plugin: `Leaflet.Draw <http://l
 
 In the next step you will create a new controller that will query the dataset at the given location using the NCSS service and then build a plotly plot with the results.
 
-1. The Plotly View gizmo requires the `plotly` Python package. We'll also need `geojson` to handle the geometry data. Install `plotly` as follows running the following command in the terminal:
-
+1. The Plotly View gizmo requires the `plotly` Python package. We'll also need `geojson` to handle the geometry data and `simplejson` for error detection. Install the packages by running the following commands in the terminal:
+    
 .. code-block::
 
     # with conda
     conda install plotly
     conda install geojson
+    conda install simplejson
 
     # with pip
     pip install plotly
     pip install geojson
+    pip install simplejson
 
-2. The app now depends on `plotly` and `geojson`, so add them to the `install.yml` file:
+2. The app now depends on `plotly`, `geojson`, and `simplejson` so add them to the `install.yml` file:
 
 .. code-block:: yaml
 
-    dependencies:
+    packages:
       ...
       - plotly
       - geojson
+      - simplejson
+
 
 3. Create New Plot Controller
 =============================
@@ -246,7 +251,7 @@ In this step you will create a new controller that will query the dataset at the
 
     The ``extract_time_series_at_location`` method uses the NetCDF Subset Service (NCSS) to subset the dataset, in this case at a specific location over a period of time.
 
-2. Create a new function that will generate the Plotly figure in a new Python module, :file:`figure.py`:
+2. Create a new Python module, :file:`figure.py`, in :file:`tethysapp/thredds_tutorial/` with a new function that will generate the Plotly figure.
 
 .. code-block:: python
 
@@ -438,6 +443,7 @@ The `JQuery.load() <https://api.jquery.com/load/>`_ method is used to call a URL
 3. Include the Plotly gizmo dependencies and the new stylesheet in :file:`templates/thredds_tutorial/home.html`:
 
 .. code-block:: html+django
+    :emphasize-lines: 1-3, 14
 
     {% block import_gizmos %}
       {% import_gizmo_dependency plotly_view %}
@@ -455,7 +461,7 @@ The `JQuery.load() <https://api.jquery.com/load/>`_ method is used to call a URL
       <link rel="stylesheet" href="{% static tethys_app|public:'css/plot.css' %}" />
     {% endblock %}
 
-4. Add a modal to :file:`templates/thredds_tutorial/home.html` for displaying the plot:
+4. Add a modal to :file:`templates/thredds_tutorial/home.html` for displaying the plot by replacing the "after_app_content" block with the following:
 
 .. code-block:: html+django
 

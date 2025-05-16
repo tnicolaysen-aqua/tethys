@@ -30,7 +30,7 @@ If you wish to use the previous solution as a starting point:
 
 Service settings are a special class of setting for Tethys Apps that allow you to specify an external service (e.g. THREDDS, GeoServer, PostGIS) as a requirement of your app. Portal administrators can then either setup a new service or assign an existing service of that type to the app for it to consume.
 
-This app will need a THREDDS service, so add the following method to the :term:`app class` to define a new THREDDS Spatial Dataset Service Setting for the app:
+This app will need a THREDDS service, so add the following method to the :term:`app class` located in :file:`app.py` to define a new THREDDS Spatial Dataset Service Setting for the app:
 
 .. code-block:: python
 
@@ -106,7 +106,7 @@ For this tutorial you'll be using the publicly accesible UCAR THREDDS Data Serve
 3. Assign THREDDS Service to App Setting
 ========================================
 
-1. Navigate back to the **Site Administration** page (see step 4.1).
+1. Navigate back to the **Site Administration** page (see step 2.1).
 
 2. Scroll down to the **TETHYS APPS** section of the page.
 
@@ -117,6 +117,8 @@ For this tutorial you'll be using the publicly accesible UCAR THREDDS Data Serve
 5. Scroll down to the **SPATIAL DATASET SERVICE SETTINGS** section.
 
 6. Select the ``Global_0p5deg`` as the spatial dataset service for the ``thredds_service`` app setting.
+
+7. Press the ``Save`` buton to save the changes to your app.
 
 
 .. note::

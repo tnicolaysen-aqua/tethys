@@ -46,6 +46,7 @@ In a file browser change into your :file:`Home` directory and open the :file:`te
 App dependencies should be managed using the :file:`install.yml` instead of the :file:`setup.py`. This app will require the ``netcdf4``, ``siphon``, and ``owslib`` packages to allow it to use THREDDS services. All three packages are available on ``conda-forge``, which is the preferred Conda channel for Tethys. Open :file:`tethysapp-thredds_tutorial/install.yml` and add these dependencies to the ``requirements.conda`` section of the file:
 
 .. code-block:: yaml
+    :emphasize-lines: 11, 13-15 
 
     # This file should be committed to your app code.
     version: 1.0
@@ -83,6 +84,7 @@ Install the app and it's dependencies into your development Tethys Portal. In a 
 Download this :download:`Unidata App Icon <./resources/unidata_logo.png>` or find one that you like and save it to the :file:`public/images` directory. Modify the ``icon`` property of your :term:`app class` to reference the new image. Also change the ``color`` property to the ``#008e8d`` color:
 
 .. code-block:: python
+    :emphasize-lines: 8, 11 
 
     class App(TethysAppBase):
         """

@@ -31,7 +31,7 @@ The THREDDS Data Server (TDS) can be installed either manually (see: `Getting St
     Docker needs to be installed to use the ``tethys docker`` command (see `Install Docker <https://docs.docker.com/install/>`_). You will also need to add your user to the docker group and logout and log back in (see `Linux Post Install <https://docs.docker.com/install/linux/linux-postinstall/>`_).
 
 
-1. Initialize the THREDDS Docker container, **making sure to bind the data directory** when prompted:
+1. Enter the following command in to the terminal to initialize the THREDDS Docker container, **making sure to bind the data directory** when prompted:
 
 .. code-block:: bash
 
@@ -158,13 +158,11 @@ The TDS Configuration File (:file:`threddsConfig.xml`) is used to control the be
 5. NetCDF Data Exercise
 =======================
 
-1. Download this :download:`National Water Model Short Range Forecast <https://drive.google.com/file/d/1Mrv54RoIlesWILria8fpSTRwS6StPhgU>` data and extract it. The archive should contain the **first 3** of 18 NetCDF files each representing a 1-hour increment in an 18 hour forecast produced by the `National Water Model <https://water.noaa.gov/about/nwm>`_. Each file contains over 2.7 million forecast points where each point is associated a different stream reach on the `National Hydrogrophy Dataset <https://nhd.usgs.gov/>`_.
+1. Create a new :file:`nwm` directory in the :file:`public` directory of the TDS Content Directory (i.e.: :file:`<TDS_CONTENT_DIRECTORY>/public/nwm`). 
 
-2. Create a new :file:`nwm` directory in the :file:`public` directory of the TDS Content Directory (i.e.: :file:`<TDS_CONTENT_DIRECTORY>/public/nwm`).
+2. Download this :download:`National Water Model Short Range Forecast <https://drive.google.com/file/d/1Mrv54RoIlesWILria8fpSTRwS6StPhgU>` data and extract it into the directory you just made. The archive contains the **first 3** of 18 NetCDF files each representing a 1-hour increment in an 18 hour forecast produced by the `National Water Model <https://water.noaa.gov/about/nwm>`_. Each file contains over 2.7 million forecast points where each point is associated a different stream reach on the `National Hydrogrophy Dataset <https://nhd.usgs.gov/>`_.
 
-3. Copy the NetCDF files from step 1 into :file:`<TDS_CONTENT_DIRECTORY>/public/nwm`.
-
-4. Create a new catalog coniguration file at the root of the TDS Content Directory called :file:`nwmCatalog.xml` with the following contents:
+3. Create a new catalog configuration file at the root of the TDS Content Directory, :file:`~/.tethys/thredds`, called :file:`nwmCatalog.xml` with the following contents:
 
 .. code-block:: xml
 
@@ -224,19 +222,19 @@ The TDS Configuration File (:file:`threddsConfig.xml`) is used to control the be
       </dataset>
     </catalog>
 
-5. Add a new catalog reference to the :file:`nwmCatalog.xml` at the bottom of the ``catalog`` section of :file:`catalog.xml`:
+4. Add a new catalog reference to the :file:`nwmCatalog.xml` at the bottom of the ``catalog`` section of :file:`catalog.xml`:
 
 .. code-block:: xml
 
     <catalogRef xlink:title="National Water Model Catalog" xlink:href="nwmCatalog.xml" name=""/>
 
-6. Restart the THREDDS server:
+5. Restart the THREDDS server to make sure the file contents are refreshed:
 
 .. code-block:: bash
 
     tethys docker restart -c thredds
 
-7. Navigate to `<http://localhost:8383/thredds/catalog/nwm/catalog.html>`_ to verify that the new data is available.
+6. Navigate to `<http://localhost:8383/thredds/catalog/nwm/catalog.html>`_ to verify that the new data is available.
 
 
 

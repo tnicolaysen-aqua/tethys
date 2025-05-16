@@ -35,7 +35,7 @@ If you wish to use the previous solution as a starting point:
 1. Add Leaflet Map to Home View
 ===============================
 
-Leaflet is not officially supported by Tethys Platform as a Gizmo, but it can easily be added manually as follows:
+Leaflet is not officially supported by Tethys Platform as a Gizmo. (See the Gizmos section of the :ref:`Glossary <glossary>`), but it can easily be added manually as follows:
 
 1. Include the Leaflet libraries in your app. Leaflet can be added a number of different ways as documented on their `Download page <https://leafletjs.com/download.html>`_. For this tutorial use the CDN option. Replace the contents of :file:`templates/thredds_tutorial/home.html` with:
 
@@ -68,7 +68,7 @@ Leaflet is not officially supported by Tethys Platform as a Gizmo, but it can ea
     {% block app_actions_override %}
     {% endblock %}
 
-2. Write a bit of JavaScript to initialize the map using the JavaScript closure pattern for organization. Create a method called ``init_map`` in :file:`public/js/leaflet_map.js` with the following contents:
+2. Create a file in the :file:`public/js/` directory called :file:`leaflet_map.js`.  Insert this block of JavaScript into the file you just created.  This has a method called ``init_map`` which will initialize the map using the JavaScript closure pattern for better organinization.
 
 .. code-block:: javascript
 
@@ -168,7 +168,7 @@ Leaflet is not officially supported by Tethys Platform as a Gizmo, but it can ea
 4. Include the new stylesheet and JavaScript modules in :file:`templates/thredds_tutorial/home.html`:
 
 .. code-block:: html+django 
-    :emphasize-lines: 2, 8, 18-21
+    :emphasize-lines: 2, 9, 19-22
 
     {% extends tethys_app.package|add:"/base.html" %}
     {% load static tethys %}
@@ -202,6 +202,7 @@ Leaflet is not officially supported by Tethys Platform as a Gizmo, but it can ea
 .. code-block:: html+django
 
     {% block app_navigation_items %}
+    ...
     {% endblock %}
 
 6. Verify that the Leaflet map is now in the app. Browse to `<http://localhost:8000/apps/thredds-tutorial>`_ in a web browser and login if necessary. The leaflet map should appear in the content area of the app and fill it.
@@ -211,7 +212,7 @@ Leaflet is not officially supported by Tethys Platform as a Gizmo, but it can ea
 
 In this step, you'll create controls to allow the user to search for and select a dataset and variable to visualize on the map. THREDDS WMS services provide a number of color ramps and styles out-of-the-box. You'll also create a control for changing the style of the layer.
 
-1. Define gizmos for the dataset selection controls in the ``home`` controller of :file:`controllers.py`. Replace the contents of :file:`controllers.py` with:
+1. Define gizmos for the dataset selection controls in the ``home`` controller of :file:`controllers.py`. Replace the contents of :file:`controllers.py` with the following code:
 
 .. code-block:: python
 
@@ -300,7 +301,7 @@ In this step, you'll create controls to allow the user to search for and select 
 
 At this point the select controls are empty and don't do anything. In this step, you'll query the THREDDS service to populate the dataset select control with a list of available datasets to visualize. You'll narrow the query to only those datasets that have the WMS service enabled.
 
-1. Create a new Python module :file:`thredds_methods.py` with the following contents:
+1. Create a new Python module, :file:`tethysapp/thredds_tutorial/thredds_methods.py`, with the following contents:
 
 .. code-block:: python
 
@@ -378,7 +379,7 @@ At this point the select controls are empty and don't do anything. In this step,
 
     Handling the slow connection or large catalog problem in production is trickier. One option would be to implement a cache. A simple caching mechanism could be implemented by writing the results to a file the first time the function is called and then loading the results from that file every time after that. This introduces new problem though: how do you update the cache when the catalog updates?
 
-    If your app requires only a specific subset of datasets and the entire THREDDS catalog, then it would probably be better to provide a list of hard-coded datasets, similar to what was done in the Google Earth Engine tutorial. How you handle this problem is ultimately dependent on the needs of your application.
+    If your app requires only a specific subset of datasets and the entire THREDDS catalog, then it would probably be better to provide a list of hard-coded datasets, similar to what is done in the Google Earth Engine tutorial. How you handle this problem is ultimately dependent on the needs of your application.
 
 
 2. Modify the ``home`` controller in :file:`controllers.py` to call the ``parse_datasets`` function to get a list of all datasets available on the THREDDS service:
@@ -458,7 +459,7 @@ In the next step you will create a function to retrieve metadata from the THREDD
 
 .. code-block:: yaml
 
-    dependencies:
+    packages:
       ...
       - chardet
 
@@ -468,7 +469,7 @@ In the next step you will create a function to retrieve metadata from the THREDD
 
 Each time a new dataset is selected, the options in the variable and style controls need to be updated to match the variables and styles of the new dataset. This information can be found by querying the WMS endpoint of the dataset provided by THREDDS. Querying the WMS endpoint is most easily accomplished by using the `OWSLib <https://geopython.github.io/OWSLib/>`_ Python library. In this step you will implement a new controller that will use OWSLib to retrieve the information and call it using ``fetch`` anytime a new dataset is selected.
 
-1. Add the following ``get_layers_for_wms`` function to :file:`thredds_methods.py`:
+1. Open :file:`thredds_methods.py` and add the following imports to the top of the file.  Add the `get_layers_for_wms` function to the end of the file.
 
 .. code-block:: python
 
@@ -579,6 +580,10 @@ Each time a new dataset is selected, the options in the variable and style contr
 
 In this step you will use the new ``get-wms-layers`` endpoint to get a list of layers and their attributes (e.g. styles) to update the variable and style controls.
 
+.. note::
+
+    The following functions are method stubs that will be implemented later in the tutorial.
+
 1. Add the following new variables to the *MODULE LEVEL / GLOBAL VARIABLES* section of :file:`public/js/leafet_map.js`:
 
 .. code-block:: javascript
@@ -600,7 +605,11 @@ In this step you will use the new ``get-wms-layers`` endpoint to get a list of l
 3. Add the following module function stubs to the *PRIVATE FUNCTION IMPLEMENTATIONS* section of :file:`public/js/leafet_map.js`, just below the ``init_map`` method:
 
 .. code-block:: javascript
+    :emphasize-lines: 4-17
 
+    init_map = function() {
+    ...
+    };
     // Control Methods
     init_controls = function() {
         console.log('Initializing controls...');
@@ -616,9 +625,6 @@ In this step you will use the new ``get-wms-layers`` endpoint to get a list of l
         console.log('Updating style control...');
     };
 
-.. note::
-
-    These functions are method stubs that will be implemented in the following steps.
 
 4. Call the ``init_controls`` method when the module initializes. **Replace** the *INITIALIZATION / CONSTRUCTOR* section of :file:`public/js/leafet_map.js` with the following updated implementation:
 
@@ -721,6 +727,7 @@ Here is a brief explanation of each method that will be implemented in this step
 .. code-block:: javascript
 
     update_style_control = function() {
+        $('#style').empty();
         let first_option = true;
         for (var style in m_layer_meta[m_curr_variable].styles) {
             if (first_option) {
@@ -745,6 +752,7 @@ Many of the datasets hosted on THREDDS servers have time as a dimension. In this
 1. Include the `Time-Dimension <https://github.com/socib/Leaflet.TimeDimension>`_ Leaflet plugin libraries to :file:`templates/thredds_tutorial/home.html`:
 
 .. code-block:: html+django
+    :emphasize-lines: 6, 15-16
 
     {% block styles %}
       {{ block.super }}
@@ -767,6 +775,7 @@ Many of the datasets hosted on THREDDS servers have time as a dimension. In this
 2. Enable the Time Dimension control when initializing the map by **replacing** the ``init_map`` method in :file:`public/js/leaflet_map.js` with this updated implementation:
 
 .. code-block:: javascript
+    :emphasize-lines: 7-8
 
     init_map = function() {
         // Create Map
@@ -798,7 +807,7 @@ In this step, you'll create the ``update_layer`` method that will add the THREDD
     var m_layer,             // The layer
         m_td_layer;          // The Time-Dimension layer
 
-2. Add the following module function declarations to the *PRIVATE FUNCTION DECLARATIONS* section of :file:`public/js/leafet_map.js`:
+2. Add the following module function declarations to the *PRIVATE FUNCTION DECLARATIONS*, `Map Methods` section of :file:`public/js/leafet_map.js`:
 
 .. code-block:: javascript
 
@@ -886,6 +895,7 @@ This controller will act as a proxy to the WMS service. It will take a URL and a
 
 .. code-block:: javascript
 
+    // Define what happens when the variable select input changes
     $('#variable').on('change', function() {
         m_curr_variable = $('#variable').val();
 
@@ -907,6 +917,7 @@ The THREDDS implementation of the WMS standard includes support for the ``GetLay
 1. Add an HTML element for the legend just under the dataset select controls to :file:`templates/thredds_tutorial/home.html`:
 
 .. code-block:: html+django
+    :emphasize-lines: 6-7
 
     {% block app_navigation_items %}
       <li class="title">Query</li>
@@ -987,7 +998,7 @@ Depending on the speed of the THREDDS server and the user's internet connection,
 
 1. Download this :download:`animated map loading image <./resources/map-loader.gif>` or find one that you like and save it to the :file:`public/images` directory.
 
-2. Create a new stylesheet called :file:`public/css/loader.css` with styles for the loader elements:
+2. Create a new stylesheet called :file:`public/css/loader.css` and add the following styles for the loader elements:
 
 .. code-block:: css
 
@@ -1014,6 +1025,7 @@ Depending on the speed of the THREDDS server and the user's internet connection,
 3. Include the new :file:`public/css/loader.css` and add the image to the ``after_app_content`` block of the :file:`templates/thredds_tutorial/home.html` template:
 
 .. code-block:: html+django
+    :emphasize-lines: 8
 
     {% block styles %}
       {{ block.super }}

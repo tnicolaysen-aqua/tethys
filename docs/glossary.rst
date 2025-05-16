@@ -1,3 +1,4 @@
+.. _glossary:
 ********
 Glossary
 ********
@@ -27,7 +28,6 @@ Glossary
     app class
         A class defined in the :term:`app configuration file` that inherits from the ``TethysAppBase`` class provided by the Tethys Platform. For more details on the app class, see :doc:`./tethys_sdk/app_class`.
 
-    Gizmo
     Gizmos
         Reusable view elements that can be inserted into a template using a single line of code. Examples include common GUI elements like buttons, toggle switches, and input fields as well as more complex elements like maps and plots. For more information on Gizmos, see :doc:`tethys_sdk/gizmos`.
 
